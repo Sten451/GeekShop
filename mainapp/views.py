@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import json
+import os
 
 # Create your views here.
 
@@ -8,9 +10,12 @@ def index(request):
 
 
 def products(request):
-    return render(request, 'mainapp/products.html')
+    with open(os.path.join("mainapp/fixtures/db.json"), "r", encoding="utf-8") as read_file:
+        data = json.load(read_file)
+    return render(request, 'mainapp/products.html', data)
 
 
+"""
 def test(request):
     context = {
         'title': 'geekshop',
@@ -24,3 +29,4 @@ def test(request):
 
     }
     return render(request, 'mainapp/test.html', context)
+"""
