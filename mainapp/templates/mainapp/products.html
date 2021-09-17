@@ -61,12 +61,12 @@
                     <div class="card h-100">
                         <a href="#">
                             <img class="card-img-top"
-                                 src="{% static '{{product.url_image}}'%}"
+                                 src="{% static product.url_image %}"
                                  alt="">
                         </a>
                         <div class="card-body">
                             <h4 class="card-title">
-                                <a href="#">{{product.name}}</a>
+                                <a href="#">{{product.name|upper}}</a>
                             </h4>
                             <h5>{{product.price}}</h5>
                             <p class="card-text">{{product.text}}</p>
@@ -105,7 +105,7 @@
 <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; GeekShop 2020</p>
+        <p class="m-0 text-center text-white">{% now "jS F Y" %}, Copyright &copy; GeekShop 2020</p>
     </div>
     <!-- /.container -->
 </footer>
