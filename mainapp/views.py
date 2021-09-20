@@ -1,8 +1,7 @@
 from django.shortcuts import render
-import json
-import os
 
 # Create your views here.
+from .models import Product, ProductCategory
 
 
 def index(request):
@@ -10,23 +9,12 @@ def index(request):
 
 
 def products(request):
-    with open(os.path.join("mainapp/fixtures/db.json"), "r", encoding="utf-8") as read_file:
-        data = json.load(read_file)
-    return render(request, 'mainapp/products.html', data)
-
-
-"""
-def test(request):
+    title = "Каталог товаров"
+    all_product = Product.objects.all()
+    product_category = ProductCategory.objects.all()
     context = {
-        'title': 'geekshop',
-        'header': 'Welcome',
-        'user': 'Sten',
-        'products': [{'name': 'Худи черного цвета с монограммами adidas Originals', 'price':'6 090'},
-                   {'name': 'Синяя куртка The North Face', 'price': '23 725'},
-                   {'name': 'Коричневый спортивный oversized-топ ASOS DESIGN', 'price': '3 390'},
-                   {'name': 'Черный рюкзак Nike Heritage', 'price': '2 340'},
-                   ]
-
+        'title': title,
+        'all_product': all_product,
+        'product_category': product_category
     }
-    return render(request, 'mainapp/test.html', context)
-"""
+    return render(request, 'mainapp/products.html', context)
