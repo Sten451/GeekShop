@@ -16,11 +16,10 @@
 
                 <h1 class="my-4">GeekShop</h1>
                 <div class="list-group">
-                    <!-- Новинки будут по дате, остальные из БД-->
-                    <a href="#" class="list-group-item">Новинки</a>
-                    {% for item in product_category %}
-                        <a href="#" class="list-group-item">{{ item.name }}</a>
-                    {% endfor %}
+                   {% for item in product_category %}
+                        <a href="/category/{{ item.pk }}" class="list-group-item">{{ item.name }}<span
+                                class="badge bg-primary rounded-pill">{{ item.cnt }}</span></a>
+                   {% endfor %}
 
                 </div>
 
@@ -71,7 +70,7 @@
                                          alt="">
                                 </a>
                                 <div class="card-body">
-                                    <h7>Категория: {{ product.category }}</h7>
+                                    <h7>Категория: <span class="h7_cat">{{ product.category }}</span></h7>
                                     <h4 class="card-title">
                                         <a href="#">{{ product.name }}</a>
                                     </h4>

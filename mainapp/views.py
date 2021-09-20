@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.db.models import Count
 from .models import Product, ProductCategory
 
 
@@ -11,7 +12,8 @@ def index(request):
 def products(request):
     title = "Каталог товаров"
     all_product = Product.objects.all()
-    product_category = ProductCategory.objects.all()
+    # выводить будем только категории в которых есть товары
+    product_category = ProductCategory.objects.annotate(cnt=Count('product')).filter(cnt__gt=0)
     context = {
         'title': title,
         'all_product': all_product,
