@@ -10,7 +10,7 @@
       "quantity": 10,
       "color": "белый",
       "size": 36,
-      "created_at": "2021-09-19",
+      "created_at": "2021-09-23",
       "category": 1
     }
   },
@@ -25,7 +25,7 @@
       "quantity": 4,
       "color": "Синий",
       "size": 39,
-      "created_at": "2021-09-19",
+      "created_at": "2021-09-23",
       "category": 1
     }
   },
@@ -40,7 +40,7 @@
       "quantity": 3,
       "color": "Коричневый",
       "size": 44,
-      "created_at": "2021-09-19",
+      "created_at": "2021-09-23",
       "category": 1
     }
   },
@@ -55,7 +55,7 @@
       "quantity": 3,
       "color": "",
       "size": 1,
-      "created_at": "2021-09-19",
+      "created_at": "2021-09-23",
       "category": 5
     }
   },
@@ -70,7 +70,7 @@
       "quantity": 3,
       "color": "Черный",
       "size": 48,
-      "created_at": "2021-09-19",
+      "created_at": "2021-09-23",
       "category": 2
     }
   },
@@ -85,7 +85,7 @@
       "quantity": 6,
       "color": "Темно-синие",
       "size": 56,
-      "created_at": "2021-09-19",
+      "created_at": "2021-09-23",
       "category": 1
     }
   }
