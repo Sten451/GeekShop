@@ -1,8 +1,9 @@
+
 from django.shortcuts import render, reverse, HttpResponseRedirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
 
-from users.forms import UserLoginForm, UserRegisterForm
+from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 
 
 def login(request):
@@ -15,8 +16,6 @@ def login(request):
             if user.is_active:
                 auth.login(request,user)
                 return HttpResponseRedirect(reverse('index'))
-        else:
-            print(form.errors)
     else:
         form = UserLoginForm()
     context = {
@@ -31,12 +30,11 @@ def register(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Вы успешно зарегистрировались.")
             return HttpResponseRedirect(reverse('users:login'))
-        else:
-            print(form.errors)
     else:
         form = UserRegisterForm()
-        context = {
+    context = {
         'title' : 'Регистрация',
         'form' : form
         }
@@ -46,3 +44,17 @@ def register(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+        else:
+            print(form.errors)
+    context = {
+        'title': 'Профайл',
+        'form' : UserProfileForm(instance=request.user)
+    }
+    return render(request, 'users/profile.html', context)

@@ -3,13 +3,15 @@
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-lg-5">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert"
-                 style="margin-top: 50px;">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                     style="margin-top: 50px;">
+                    {{ form.errors|escape }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Авторизация</h3>
                 </div>
@@ -20,39 +22,39 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="inputFirstName">Имя</label>
-                                    {{ form.first_name}}
+                                    {{ form.first_name }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="inputLastName">Фамилия</label>
-                                    {{ form.last_name}}
+                                    {{ form.last_name }}
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputUsername">Имя пользователя</label>
-                                {{ form.username}}
+                                {{ form.username }}
                             </div>
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputEmailAddress">Адрес электронной
                                     почты</label>
-                                {{ form.email}}
+                                {{ form.email }}
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="inputPassword">Пароль</label>
-                                    {{ form.password1}}
+                                    {{ form.password1 }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="small mb-1" for="inputConfirmPassword">Подтверждение
                                         пароля</label>
-                                    {{ form.password2}}
+                                    {{ form.password2 }}
                                 </div>
                             </div>
                         </div>
@@ -67,4 +69,4 @@
             </div>
         </div>
     </div>
- {% endblock %}
+{% endblock %}
