@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainapp',
     'users',
+    'baskets',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,4 @@ FILE_UPLOAD_PERMISSIONS = 0o777
 
 
 AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/users/login/'

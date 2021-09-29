@@ -3,7 +3,9 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse
 
+from baskets.models import Basket
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -45,6 +47,7 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
 
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
@@ -55,6 +58,7 @@ def profile(request):
             print(form.errors)
     context = {
         'title': 'Профайл',
-        'form' : UserProfileForm(instance=request.user)
+        'form' : UserProfileForm(instance=request.user),
+        'baskets' : Basket.objects.filter(user=request.user)
     }
     return render(request, 'users/profile.html', context)
