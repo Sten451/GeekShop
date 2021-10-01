@@ -64,9 +64,20 @@ def profile(request):
                     messages.error(request, "Файл, который Вы загрузили, повреждён или не является изображением")
             else:
                 messages.error(request, "Неизвестная ошибка сохранения данных")
+
+    total_sum = 0
+    total_quantity = 0
+    baskets = Basket.objects.filter(user=request.user)
+    for s in baskets:
+        total_quantity += s.quantity
+        total_sum += s.sum()
+
     context = {
         'title': 'Профайл',
         'form': UserProfileForm(instance=request.user),
-        'baskets': Basket.objects.filter(user=request.user)
+        'baskets': Basket.objects.filter(user=request.user),
+        'total_sum': total_sum,
+        'total_quantity': total_quantity
+
     }
     return render(request, 'users/profile.html', context)
