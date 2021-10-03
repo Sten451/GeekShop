@@ -27,6 +27,8 @@ def basket_remove(request, product_id):
     Basket.objects.get(id=product_id).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+@login_required()
 def basket_edit(request, id, quantity):
     if request.is_ajax():
         basket = Basket.objects.get(id=id)
