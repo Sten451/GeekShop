@@ -31,17 +31,4 @@ class Command(BaseCommand):
             new_category = Product(**prod)
             new_category.save()
 
-        #User
-        users = load_from_json('mainapp/fixtures/users_dump.json')
-        #print("load")
-        User.objects.all().delete()
-        #print("delete")
-        for user in users:
-            cat = user.get('fields')
-            #print(user)
-            #print(cat)
-            cat['id'] = user.get('pk')
-            #print(cat['id'])
-            new_category = User(**cat)
-            print(new_category)
-            new_category.save()
+super_user = User.objects.create_superuser(username='sten451', email='', password='1')
