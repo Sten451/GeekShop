@@ -21,5 +21,6 @@ urlpatterns = [
 
     path('', products, name='index'),
     path('category/<int:category_id>/', products, name='category'),
+    path('page/<int:page_id>/', products, name='page'),
 
 ]

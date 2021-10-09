@@ -1,74 +1,55 @@
-from django.shortcuts import render, reverse, HttpResponseRedirect
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, reverse, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib import auth, messages
-from django.urls import reverse
-
+from django.urls import reverse, reverse_lazy
+from django.views.generic import FormView, UpdateView
 from baskets.models import Basket
+from geekshop.mixin import BaseClassContextMixin, UserDispatchMixin
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
-from django.contrib.auth.decorators import login_required
+from users.models import User
 
+class Logout(LogoutView):
+    template_name = 'mainapp/index.html'
 
-def login(request):
-    if request.method == 'POST':
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username, password=password)
-            if user.is_active:
-                auth.login(request, user)
-                return HttpResponseRedirect(reverse('index'))
-    else:
-        form = UserLoginForm()
-    context = {
-        'title': 'Авторизация',
-        'form': form
-    }
-    return render(request, 'users/login.html', context)
+class LoginListView(LoginView, BaseClassContextMixin):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
+    title = 'Авторизация'
 
+class RegisterListView(FormView):
+    model = User
+    template_name = 'users/register.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('users:login')
+    title = 'Регистрация'
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(data=request.POST)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Вы успешно зарегистрировались.")
-            return HttpResponseRedirect(reverse('users:login'))
-    else:
-        form = UserRegisterForm()
-    context = {
-        'title': 'Регистрация',
-        'form': form
-    }
-    return render(request, 'users/register.html', context)
+            return redirect(self.success_url)
+        return redirect(self.success_url)
 
 
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+class ProfileFormView(UpdateView, BaseClassContextMixin, UserDispatchMixin):
+    model = User
+    form_class = UserProfileForm
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('users:profile')
+    title = 'Профайл'
 
+    def get_object(self, queryset=None):
+        return get_object_or_404(User, pk=self.request.user.pk)
 
-@login_required
-def profile(request):
-    if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+    def get_context_data(self, **kwargs):
+        context = super(ProfileFormView, self).get_context_data(**kwargs)
+        context['baskets'] = Basket.objects.filter(user=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST,files=request.FILES,instance=self.get_object())
         if form.is_valid():
             form.save()
-            messages.success(request, "Данные сохранены")
-            return HttpResponseRedirect(reverse('users:profile'))
-        else:
-            if 'image' in form.errors:
-                dict2 = (form.errors.get_json_data()).get('image')
-                if (dict2[-1]['code']) == 'size':
-                    messages.error(request, "Размер картинки должен быть меньше 1МБ")
-                elif (dict2[-1]['code']) == 'invalid_image':
-                    messages.error(request, "Файл, который Вы загрузили, повреждён или не является изображением")
-            else:
-                messages.error(request, "Неизвестная ошибка сохранения данных")
-
-    context = {
-        'title': 'Профайл',
-        'form': UserProfileForm(instance=request.user),
-        'baskets': Basket.objects.filter(user=request.user),
-
-    }
-    return render(request, 'users/profile.html', context)
+            return redirect(self.success_url)
+        return redirect(self.success_url)
