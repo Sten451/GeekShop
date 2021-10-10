@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, AddCategory
 from users.models import User
-from mainapp.models import ProductCategory
+from mainapp.models import ProductCategory, Product
 from geekshop.mixin import CustomDispatchMixin
 
 
@@ -107,3 +107,25 @@ class CategoryDeleteView(DeleteView, CustomDispatchMixin):
     model = ProductCategory
     template_name = 'admins/admin-categories-update-delete.html'
     success_url = reverse_lazy('admins:admins_category')
+
+
+# Продукты
+class ProductListView(ListView, CustomDispatchMixin):
+    model = Product
+    template_name = 'admins/admin-products-read.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Товары'
+        return context
+
+
+class ProductUpdateView(UpdateView, CustomDispatchMixin):
+    pass
+
+class ProductDeleteView(DeleteView, CustomDispatchMixin):
+    pass
+
+class ProductCreateView(CreateView, CustomDispatchMixin):
+    pass
