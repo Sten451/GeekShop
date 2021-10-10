@@ -1,0 +1,26 @@
+<div class="">
+    <h3 class="text-center mt-3 mb-3 col">Новинки: </h3>
+    {% for product in last_product %}
+        <div class="mb-3">
+            <div class="card h-100">
+                <a href="#">
+                    <img class="card-img-top"
+                         src="{{ product.image.url }}"
+                         alt="">
+                </a>
+                <div class="card-body">
+                    <h7>Дата поступления: <span class="h7_cat">{{ product.created_at }}</span></h7>
+                    <h4 class="card-title">
+                        <a href="#">{{ product.name }}</a>
+                    </h4>
+                    <h5>{{ product.price }} рублей</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить
+                        в корзину</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

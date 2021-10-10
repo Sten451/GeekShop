@@ -1,32 +1,32 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.db.models import Count
+from django.views.generic import ListView
 from .models import Product, ProductCategory
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
     return render(request, 'mainapp/index.html')
 
+class AllProductCategory:
+    model = ProductCategory
 
-def products(request, category_id=None, page_id=1):
-    title = "Каталог товаров"
-    # выводить будем только категории в которых есть товары
-    product_category = ProductCategory.objects.annotate(cnt=Count('product')).filter(cnt__gt=0)
-    products = Product.objects.filter(category_id=category_id) if category_id != None else Product.objects.all()
+    def get_active_category(self):
+        return ProductCategory.objects.annotate(cnt=Count('product')).filter(cnt__gt=0)
 
-    paginator = Paginator(products, per_page=3)
-    try:
-        products_paginator = paginator.page(page_id)
-    except PageNotAnInteger:
-        products_paginator = paginator.page(1)
-    except EmptyPage:
-        products_paginator = paginator.page(Paginator.num_pages)
 
-    context = {
-        'title': 'Каталог',
-        'product_category': product_category,
-    }
-    context.update({'products': products_paginator})
-    return render(request, 'mainapp/products.html', context)
+class ProductsView(AllProductCategory, ListView):
+    model = Product
+    title = 'Каталог продуктов'
+    template_name = 'mainapp/products.html'
+    context_object_name = 'ListProducts'
+    paginate_by = 3
+
+    def get_queryset(self):
+        category = self.kwargs.get('category_id', None)
+        if category is not None:
+            return Product.objects.filter(category=category)
+        return Product.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductsView, self).get_context_data(**kwargs)
+        return context
