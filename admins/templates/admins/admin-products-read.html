@@ -11,7 +11,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th>Категориия</th>
@@ -22,6 +22,8 @@
                                     <th>Цвет</th>
                                     <th>Размер</th>
                                     <th>Дата поступления</th>
+                                    <th></th>
+                                    <th></th>
                                     {% comment %}<th>Активный</th>{% endcomment %}
                                 </tr>
                                 </thead>
@@ -35,6 +37,8 @@
                                     <th>Цвет</th>
                                     <th>Размер</th>
                                     <th>Дата поступления</th>
+                                    <th></th>
+                                    <th></th>
                                     {% comment %}<th>Активный</th>{% endcomment %}
                                 </tr>
                                 </tfoot>
@@ -46,11 +50,13 @@
                                         <td>{{ product.category }}</td>
                                         <td>
                                             <div class="poster">
-                                               <a
-                                                        href="{% url 'admins:admins_products_update' product.id %}"
+                                                <a
+                                                        href="#"
                                                         style="color: dodgerblue">{{ product.name }}</a>
-                                                <div class="descr"><img src="../../media/{{ product.image }}" width="190" height="255"><br></div>
+                                                <div class="descr"><img src="../../media/{{ product.image }}"
+                                                                        width="190" height="255"><br></div>
                                             </div>
+
                                         </td>
                                         <td>{{ product.description }}</td>
                                         <td>{{ product.price }}</td>
@@ -58,6 +64,19 @@
                                         <td>{{ product.color }}</td>
                                         <td>{{ product.size }}</td>
                                         <td>{{ product.created_at }}</td>
+                                        <td><a
+                                                href="{% url 'admins:admins_products_update' product.id %}"
+                                                style="color: dodgerblue">
+                                            <button type="button" class="btn btn-warning">Редактировать</button>
+                                        </a></td>
+                                        <td>
+                                            <form action="{% url 'admins:admins_products_delete' product.id %}"
+                                                  method="post">
+                                                {% csrf_token %}
+                                                <input class="btn btn-danger btn-block" type="submit"
+                                                       value="Удалить товар">
+                                            </form>
+                                        </td>
 
                                     </tr>
                                 {% endfor %}

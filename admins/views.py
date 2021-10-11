@@ -3,14 +3,29 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, AddCategory
+from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, AddCategory, AddProduct
 from users.models import User
 from mainapp.models import ProductCategory, Product
 from geekshop.mixin import CustomDispatchMixin
 
+class Index(ListView):
+    model = User
+    template_name = 'admins/admin.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(Index, self).get_context_data(**kwargs)
+        context['count_user'] = User.objects.all().count()
+        context['count_user_active'] = User.objects.all().filter(is_active=True).count()
+        context['count_user_staff'] = User.objects.all().filter(is_staff=True)
+        context['count_category'] = ProductCategory.objects.all().count()
+        context['count_product'] = Product.objects.all().count()
+        context['high_product'] = Product.objects.order_by("price")[:1]
+        context['title'] = 'Админка'
+        return context
+
 
 def index(request):
-    return render(request, 'admins/admin.html')
+    return render(request, )
 
 
 class UserListView(ListView, CustomDispatchMixin):
@@ -122,10 +137,28 @@ class ProductListView(ListView, CustomDispatchMixin):
 
 
 class ProductUpdateView(UpdateView, CustomDispatchMixin):
-    pass
+    model = Product
+    template_name = 'admins/admin-product-update-delete.html'
+    form_class = AddProduct
+    success_url = reverse_lazy('admins:admins_products')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductUpdateView, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Обновление карточки товара'
+        return context
 
 class ProductDeleteView(DeleteView, CustomDispatchMixin):
-    pass
+    model = Product
+    template_name = 'admins/admin-product-update-delete.html'
+    success_url = reverse_lazy('admins:admins_products')
 
 class ProductCreateView(CreateView, CustomDispatchMixin):
-    pass
+    model = Product
+    template_name = 'admins/admin-product-create.html'
+    form_class = AddProduct
+    success_url = reverse_lazy('admins:admins_products')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductCreateView, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Создание нового продукта'
+        return context

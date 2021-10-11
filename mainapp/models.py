@@ -11,12 +11,12 @@ class ProductCategory(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=256, unique=True, verbose_name="Наименование товара")
-    image = models.ImageField(upload_to='product_images/%y/%m/%d', blank=True, verbose_name="Фото товара")
+    image = models.ImageField(upload_to='product_images/%y/%m/%d', verbose_name="Фото товара")
     description = models.TextField(blank=True, verbose_name="Описание товара")
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Цена товара")
     quantity = models.PositiveIntegerField(default=0, verbose_name="Количество на складе")
-    color = models.CharField(max_length=50, verbose_name="Цвет товара", blank=True, unique=True)
-    size = models.PositiveSmallIntegerField(verbose_name="Размер", blank=True, unique=True)
+    color = models.CharField(max_length=50, verbose_name="Цвет товара", blank=True)
+    size = models.PositiveSmallIntegerField(default=None, verbose_name="Размер")
     created_at = models.DateField(auto_now_add=True, verbose_name="Дата поступления на склад")
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 

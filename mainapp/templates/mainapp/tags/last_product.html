@@ -4,9 +4,11 @@
         <div class="mb-3">
             <div class="card h-100">
                 <a href="#">
+                    {% if product.image %}
                     <img class="card-img-top"
                          src="{{ product.image.url }}"
                          alt="">
+                    {% endif %}
                 </a>
                 <div class="card-body">
                     <h7>Дата поступления: <span class="h7_cat">{{ product.created_at }}</span></h7>
