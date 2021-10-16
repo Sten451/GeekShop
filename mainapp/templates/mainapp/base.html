@@ -42,6 +42,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:profile' %}"> {{ user.username }} <i class="fas fa-user-circle"></i></a>
                     </li>
+                    <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:profile' %}">Корзина <span class="badge badge-pill badge-info">{% if baskets %} {{ baskets.first.total_quantity }} {% else %} 0 {% endif %}</span></a>
+          </li>
+
                     {% if user.is_staff %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'admins:index' %}"><i class="fas fa-users-cog"></i></a>

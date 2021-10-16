@@ -24,10 +24,6 @@ class Index(ListView):
         return context
 
 
-def index(request):
-    return render(request, )
-
-
 class UserListView(ListView, CustomDispatchMixin):
     model = User
     template_name = 'admins/admin-users-read.html'
