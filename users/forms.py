@@ -1,3 +1,6 @@
+import hashlib
+import random
+
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 
@@ -33,6 +36,29 @@ class UserRegisterForm(UserCreationForm):
         self.fields['password2'].widget.attrs['placeholder'] = "Подтвердите пароль"
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
+            
+    def save(self, commit=True):
+        user = super(UserRegisterForm, self).save()
+        user.is_active = False
+        salt = hashlib.sha256(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha256((user.email + salt).encode('utf8')).hexdigest()
+        user.save()
+        return user
+
+    # если вдруг в базе не уникальность
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(f'Пользователь с логином {username} уже зарегистрирован на сайте')
+        return username
+
+    # если вдруг в базе не уникальность
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError(f'Пользователь с такой почтой {email} уже зарегистрирован на сайте')
+        return email
+
 
 class UserProfileForm(UserChangeForm):
     image = forms.ImageField(widget=forms.FileInput(), required=False)
