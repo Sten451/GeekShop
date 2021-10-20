@@ -38,7 +38,14 @@
                             <a class="small" href="#">Забыли пароль?</a>
                             <input class="btn btn-primary" type="submit" value="Авторизоваться">
                         </div>
+
                     </form>
+                </div>
+                <div class="list-group-horizontal card-footer text-center small"
+>
+                    <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/">
+                    <i class="fab fa-vk"></i></a>
+
                 </div>
 
                 <div class="card-footer text-center">
