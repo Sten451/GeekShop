@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, UpdateView
 from baskets.models import Basket
 from geekshop.mixin import BaseClassContextMixin, UserDispatchMixin
-from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
 from users.models import User
 
 class Logout(LogoutView):
@@ -48,9 +48,15 @@ class ProfileFormView(UpdateView, BaseClassContextMixin, UserDispatchMixin):
     def get_object(self, queryset=None):
         return get_object_or_404(User, pk=self.request.user.pk)
 
+    def get_context_data(self, **kwargs):
+        context = super(ProfileFormView, self).get_context_data(**kwargs)
+        context['profile'] = UserProfileEditForm(instance=self.request.user.userprofile)
+        return context
+
     def post(self, request, *args, **kwargs):
-        form = self.form_class(data=request.POST,files=request.FILES,instance=self.get_object())
-        if form.is_valid():
+        form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        form_edit = UserProfileEditForm(data=request.POST, instance=request.user.userprofile)
+        if form.is_valid() and form_edit.is_valid():
             form.save()
             return redirect(self.success_url)
         return redirect(self.success_url)
