@@ -25,6 +25,7 @@ class Order(models.Model):
     created = models.DateTimeField(verbose_name='создан', auto_now_add=True)
     update = models.DateTimeField(verbose_name='создан', auto_now=True)
     status = models.CharField(choices='', verbose_name='статус', max_length=3, default=FORMING)
+    is_active = models.BooleanField(verbose_name='активный', default=True)
 
     def __str__(self):
         return f'Текущий заказ {self.pk}'
@@ -39,6 +40,13 @@ class Order(models.Model):
 
     def get_items(self):
         pass
+
+    def delete(self, using=None, keep_parents=False):
+        for item in self.orderitems.select_related():
+            item.product.quantity += item.quantity
+            item.save()
+        self.is_active = False
+        self.save()
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name='заказ', related_name='orderitems', on_delete=models.CASCADE)

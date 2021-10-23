@@ -2,12 +2,12 @@
     <div class="container">
         <div class="d-flex justify-content-around">
             <button class="btn btn-warning btn-round form-control w-25 my-2 last">
-                <a href="{% url 'orders:forming_complete' object.pk %}">
-                    совершить покупку
+                <a href="{% url 'orders:forming' object.pk %}">
+                    Оформить заказ
                 </a>
             </button>
             <button class="btn btn-warning btn-round form-control w-25 my-2 last">
-                <a href="{% url 'orders:delete' object.pk %}">удалить</a>
+                <a href="{% url 'orders:delete' object.pk %}">Удалить заказ</a>
             </button>
         </div>
     </div>
@@ -16,10 +16,10 @@
 
     <button class="btn btn-info btn-round form-control my-2 last">
         <a href="{% url 'orders:list' %}">
-            к списку заказов
+            К списку заказов
         </a>
     </button>
-    <button class="btn btn-light btn-round form-control  my-2 last">
-        <a href="{% url 'index' %}">на главную</a>
+    <button class="btn btn-dark btn-round form-control my-2 last">
+        <a href="{% url 'index' %}">На главную</a>
     </button>
 </div>
