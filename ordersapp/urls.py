@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from .views import OrderList, OrderCreate, OrderDelete, OrderDetail, OrderUpdate, order_forming_complete
+from .views import OrderList, OrderCreate, OrderDelete, OrderDetail, OrderUpdate, order_forming_complete,get_product_price
 
 app_name = 'ordersapp'
 
@@ -26,5 +26,6 @@ urlpatterns = [
     path('delete/<int:pk>/', OrderDelete.as_view(), name='delete'),
     path('forming/<int:pk>/', order_forming_complete, name='forming'),
     path('update/<int:pk>/', OrderUpdate.as_view(), name='update'),
+    path('product/<int:pk>/price', get_product_price, name='product_price'),
 
 ]
