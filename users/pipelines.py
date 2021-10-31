@@ -36,7 +36,7 @@ def save_user_profile(backend, user, response, *args, **kwargs):
     age = timezone.now().date().year - bdate.year
     user.age = age
     # минимальный возраст,исключение выдаст ошибку и сайт упадет
-    if age < 100:
+    if age < 10:
         user.delete()
         raise AuthForbidden('social_core.backends.vk.VKOAuth2')
 
