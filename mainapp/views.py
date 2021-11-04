@@ -24,8 +24,8 @@ class ProductsView(AllProductCategory, ListView):
     def get_queryset(self):
         category = self.kwargs.get('category_id', None)
         if category is not None:
-            return Product.objects.filter(category=category)
-        return Product.objects.all()
+            return Product.objects.filter(category=category).select_related('category')
+        return Product.objects.all().select_related('category')
 
     def get_context_data(self, **kwargs):
         context = super(ProductsView, self).get_context_data(**kwargs)
