@@ -19,7 +19,7 @@ class Index(ListView):
         context['count_user_staff'] = User.objects.all().filter(is_staff=True)
         context['count_category'] = ProductCategory.objects.all().count()
         context['count_product'] = Product.objects.all().count()
-        context['high_product'] = Product.objects.order_by("price")[:1]
+        context['high_product'] = Product.objects.order_by("-price")[:1]
         context['title'] = 'Админка'
         return context
 
