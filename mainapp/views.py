@@ -16,12 +16,12 @@ class AllProductCategory:
 
     def get_active_category(self):
         if settings.LOW_CACHE:
-            key = 'links_category'
-            link_category = cache.get(key)
-            if link_category is None:
-                link_category = ProductCategory.objects.annotate(cnt=Count('product')).filter(cnt__gt=0)
-                cache.set(key,link_category)
-            return link_category
+            key = 'links_category21'
+            link_category21 = cache.get(key)
+            if link_category21 is None:
+                link_category21 = ProductCategory.objects.annotate(cnt=Count('product')).filter(cnt__gt=0)
+                cache.set(key, link_category21)
+            return link_category21
         else:
             return ProductCategory.objects.annotate(cnt=Count('product')).filter(cnt__gt=0)
 
