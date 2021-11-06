@@ -97,7 +97,6 @@ DATABASES = {
     }
 }
 """
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -143,9 +142,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = (BASE_DIR / 'static', )
+STATICFILES_DIRS = (BASE_DIR / 'static', )
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -214,6 +213,20 @@ SOCIAL_AUTH_PIPELINE = (
 #Заготовка для Facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '420835722818124'
 SOCIAL_AUTH_FACEBOOK_SECRET = '1bd727bdfaa0a65af978ddac1e0fe5b1'
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 120
+CACHE_MIDDLEWARE_KEY_PREFIX = 'geekshop'
+
+CACHES = {
+       'default': {
+           'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+           'LOCATION': '127.0.0.1:11211',
+       }
+   }
+LOW_CACHE = True
+
+
 
 if DEBUG:
    def show_toolbar(request):

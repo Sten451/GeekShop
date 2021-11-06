@@ -68,7 +68,7 @@
                                 <div class="card-body">
                                     <h7>Категория: <span class="h7_cat">{{ product.category }}</span></h7>
                                     <h4 class="card-title">
-                                        <a href="#">{{ product.name }}</a>
+                                        <a href="{% url 'products:detail' product.id %}">{{ product.name }}</a>
                                     </h4>
                                     <h5>{{ product.price }} рублей</h5>
                                     <p class="card-text">{{ product.description }}</p>
