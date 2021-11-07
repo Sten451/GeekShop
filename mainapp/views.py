@@ -28,27 +28,29 @@ class AllProductCategory:
 
 class ProductsView(AllProductCategory, ListView):
     model = Product
-    title = 'РљР°С‚Р°Р»РѕРі РїСЂРѕРґСѓРєС‚РѕРІ'
+    title = 'Каталог продуктов'
     template_name = 'mainapp/products.html'
     context_object_name = 'ListProducts'
     paginate_by = 3
 
+    """
     def get_queryset(self):
         category = self.kwargs.get('category_id', None)
         if category is not None:
             return Product.objects.filter(category=category).select_related('category')
         return Product.objects.all().select_related('category')
-    # РЅР°РІРµСЂРЅРѕРµ СЌС‚Рѕ РЅРµ СЂР°Р±РѕС‚Р°РµС‚, С…РѕС‚СЏ С…Р·
+    
     """
     def get_queryset(self):
         category = self.kwargs.get('category_id', None)
+        print('category', category)
         if settings.LOW_CACHE:
             key = 'links_category31'
             link_category31 = cache.get(key)
             if link_category31 is None:
                 link_category31 = self.verify_category(category)
                 cache.set(key, link_category31)
-            return link_category31
+            return self.verify_category(category)
         else:
             return self.verify_category(category)
 
@@ -63,7 +65,7 @@ class ProductsView(AllProductCategory, ListView):
     def get_context_data(self, **kwargs):
         context = super(ProductsView, self).get_context_data(**kwargs)
         return context
-"""
+
 
 class ProductDetail(DetailView):
     model = Product

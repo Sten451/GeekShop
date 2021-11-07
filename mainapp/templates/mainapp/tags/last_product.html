@@ -5,9 +5,9 @@
             <div class="card h-100">
                 <a href="#">
                     {% if product.image %}
-                    <img class="card-img-top"
-                         src="{{ product.image.url }}"
-                         alt="">
+                        <img class="card-img-top"
+                             src="{{ product.image.url }}"
+                             alt="">
                     {% endif %}
                 </a>
                 <div class="card-body">
@@ -17,7 +17,10 @@
                     </h4>
                     <h5>{{ product.price }} рублей</h5>
                     <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">В наличии: {{ product.quantity }} штук</p>
+
                 </div>
+
                 <div class="card-footer text-center">
                     <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить
                         в корзину</a>

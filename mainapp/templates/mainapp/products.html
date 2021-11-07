@@ -72,11 +72,18 @@
                                     </h4>
                                     <h5>{{ product.price }} рублей</h5>
                                     <p class="card-text">{{ product.description }}</p>
+                                    <p class="card-text">В наличии: {{ product.quantity }} штук</p>
                                 </div>
+
                                 <div class="card-footer text-center">
+                                {% if product.quantity > 0 %}
                                     <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить
                                         в корзину</a>
-                                </div>
+                                    {% else %}
+                                    <p class="text-center bg-danger">Товар временно закончился</p>
+                                {% endif %}
+                                    </div>
+
                             </div>
                         </div>
                     {% endfor %}
