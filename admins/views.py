@@ -20,6 +20,7 @@ class Index(ListView):
         context['count_category'] = ProductCategory.objects.all().count()
         context['count_product'] = Product.objects.all().count()
         context['high_product'] = Product.objects.order_by("-price")[:1]
+        context['end_product'] = Product.objects.all().filter(quantity=0)
         context['title'] = 'Админка'
         return context
 
