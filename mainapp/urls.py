@@ -21,7 +21,8 @@ from .views import ProductsView, ProductDetail
 app_name = 'products'
 urlpatterns = [
 
-    path('', cache_page(3600)(ProductsView.as_view()), name='index'),
+    path('', ProductsView.as_view(), name='index'),
+    #path('', cache_page(3600)(ProductsView.as_view()), name='index'),
     path('category/<int:category_id>/', ProductsView.as_view(), name='category'),
     path('detail/<int:pk>/', ProductDetail.as_view(), name='detail'),
     # path('detail/<int:pk>/', cache_page(3600)(ProductDetail.as_view()), name='detail'),
