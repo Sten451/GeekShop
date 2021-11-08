@@ -24,5 +24,6 @@ urlpatterns = [
     path('add/<int:product_id>/', Basket_view.basket_add, name='basket_add'),
     path('edit/<int:id>/<int:quantity>/', Basket_view.basket_edit, name='basket_edit'),
     path('remove/<int:product_id>/', Basket_view.basket_remove, name='basket_remove'),
+    path('clear/', Basket_view.basket_clear, name='basket_clear'),
 
 ]

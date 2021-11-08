@@ -47,3 +47,9 @@ class Basket_view(ListView, UserDispatchMixin):
     def basket_remove(request, product_id):
         Basket.objects.get(id=product_id).delete()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    @staticmethod
+    def basket_clear(request):
+        Basket.objects.filter(user=request.user).delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
