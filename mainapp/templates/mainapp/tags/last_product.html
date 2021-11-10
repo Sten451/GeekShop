@@ -22,8 +22,12 @@
                 </div>
 
                 <div class="card-footer text-center">
-                    <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить
-                        в корзину</a>
+                    {% if product.quantity > 0 %}
+                                    <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить
+                                        в корзину</a>
+                                    {% else %}
+                                    <p class="text-center bg-danger">Товар временно закончился</p>
+                                {% endif %}
                 </div>
             </div>
         </div>

@@ -43,7 +43,6 @@ class ProductsView(AllProductCategory, ListView):
     """
     def get_queryset(self):
         category = self.kwargs.get('category_id', None)
-        print('category', category)
         if settings.LOW_CACHE:
             key = 'links_category31'
             link_category31 = cache.get(key)

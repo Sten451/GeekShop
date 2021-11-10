@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -20,9 +21,10 @@ class Basket_view(ListView, UserDispatchMixin):
         if not baskets.exists():
             Basket.objects.create(user=user_select, product=product, quantity=1)
         else:
-            basket = baskets.first()
-            basket.quantity += 1
-            basket.save()
+            baskets = baskets.first()
+            #baskets.quantity += 1
+            baskets.quantity = F('quantity')+1
+            baskets.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

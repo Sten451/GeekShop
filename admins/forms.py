@@ -4,6 +4,10 @@ from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 from mainapp.models import ProductCategory, Product
 
+#class CategoryUpdateFormAdmin(forms.ModelForm):
+
+
+
 class UserAdminRegisterForm(UserRegisterForm):
     image = forms.ImageField(widget=forms.FileInput(),required=False)
 
@@ -29,6 +33,9 @@ class UserAdminProfileForm(UserProfileForm):
 
 
 class AddCategory(forms.ModelForm):
+    discount = forms.IntegerField(label='скидка', required=False, min_value=0, max_value=90, initial=0,
+                                  widget=forms.NumberInput())
+
     class Meta:
         model = ProductCategory
         fields = ('name', 'description')
