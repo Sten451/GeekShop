@@ -56,38 +56,7 @@
                     </a>
                 </div>
 
-                <div class="row">
-                    {% for product in page_obj %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <a href="#">
-                                    <img class="card-img-top"
-                                         src="{{ product.image.url }}"
-                                         alt="">
-                                </a>
-                                <div class="card-body">
-                                    <h7>Категория: <span class="h7_cat">{{ product.category }}</span></h7>
-                                    <h4 class="card-title">
-                                        <a href="{% url 'products:detail' product.id %}">{{ product.name }}</a>
-                                    </h4>
-                                    <h5>{{ product.price }} рублей</h5>
-                                    <p class="card-text">{{ product.description }}</p>
-                                    <p class="card-text">В наличии: {{ product.quantity }} штук</p>
-                                </div>
-
-                                <div class="card-footer text-center">
-                                {% if product.quantity > 0 %}
-                                    <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">Отправить
-                                        в корзину</a>
-                                    {% else %}
-                                    <p class="text-center bg-danger">Товар временно закончился</p>
-                                {% endif %}
-                                    </div>
-
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                {% include 'mainapp/product_list.html' %}
 
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
