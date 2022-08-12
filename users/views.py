@@ -50,14 +50,14 @@ class RegisterListView(FormView):
 
 
     @staticmethod
-    def verify(request, email, activation_key):
+    def verify(request, email, activation_key, backend='django.contrib.auth.backends.ModelBackend'):
         user = User.objects.get(email=email)
         if user and user.activation_key == activation_key and not user.is_activation_key_expired():
             user.activation_key = ''
             user.activation_key_created = None
             user.is_active = True
             user.save()
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return render(request, 'users/verification.html')
 
     @staticmethod

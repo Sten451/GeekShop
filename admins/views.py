@@ -1,12 +1,13 @@
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 
-from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, AddCategory, AddProduct
+from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, AddCategory, AddProduct, EditSettings
 from users.models import User
 from mainapp.models import ProductCategory, Product
+from admins.models import Custom_Settings
 from geekshop.mixin import CustomDispatchMixin
 from django.db import connection
 
@@ -14,6 +15,30 @@ def db_profile_by_type(prefix, type, queries):
     update_queries = list(filter(lambda x: type in x['sql'], queries))
     print(f'db_profile {type} for {prefix}:')
     [print(query['sql']) for query in update_queries]
+
+
+class AdminsSettins(CreateView, CustomDispatchMixin):
+    model = Custom_Settings
+    form_class = EditSettings
+    template_name = 'admins/settings.html'
+    success_url = reverse_lazy('admins:admins_settings')
+
+    """def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST)
+        if form.is_valid():
+            cs = Custom_Settings.objects.all()
+            print('ok')
+
+            Custom_Settings = form.save()
+        else:print('bad')
+        return redirect(self.success_url)"""
+
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(AdminsSettins, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Настройки сайта'
+        return context
 
 
 class Index(ListView):
