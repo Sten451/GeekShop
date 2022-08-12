@@ -1,0 +1,56 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Статистика сайта</h1>
+                <div class="card border-primary mb-3" style="max-width: 38rem;">
+                    <div class="card-header">Пользователи</div>
+                    <div class="card-body text-primary">
+                        <h5 class="card-title">Всего пользователей: {{ count_user }}</h5>
+                        <p class="card-text">Активных пользователей: {{ count_user_active }}</p>
+                        <p class="card-text">Персонал:</p>
+                        {% for staff in count_user_staff %}
+                            <p class="card-text">{{ staff }}</p>
+                        {% endfor %}
+                        <a href="{% url 'admins:admins_user_create' %}" class="btn btn-primary">Новый пользователь</a>
+                    </div>
+                </div>
+                <div class="card border-success mb-3" style="max-width: 38rem;">
+                    <div class="card-header">Категории товаров</div>
+                    <div class="card-body text-success">
+                        <h5 class="card-title">Всего категорий: {{ count_category }} </h5>
+                        <a href="{% url 'admins:admins_category_create' %}" class="btn btn-primary">Новая категория</a>
+                    </div>
+                </div>
+
+                <div class="card border-info mb-3" style="max-width: 38rem;">
+                    <div class="card-header">Товары</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Всего товаров: {{ count_product }} </h5>
+                        <p class="card-text font-weight-bold">Самый дорогой товар:</p>
+                        {% for hp in high_product %}
+                            <p class="card-text"> {{ hp.name }} - {{ hp.price }} рублей.</p>
+                        {% endfor %}
+                        <p class="card-text font-weight-bold">Товары которые закончились:</p>
+                        {% for hp2 in end_product %}
+                            <p class="card-text alert-danger"> {{ hp2.name }}</p>
+                        {% endfor %}
+                        <a href="{% url 'admins:admins_products_create' %}" class="btn btn-primary">Новый товар</a>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; GeekShop 2021</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

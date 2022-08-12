@@ -1,0 +1,25 @@
+body {
+    padding-top: 56px;
+}
+
+.rounded-pill {
+    color: white;
+    margin-left: 5px;
+    padding: .25em .7em;
+}
+
+h7 {
+    color: darkgreen;
+    font-style: italic;
+
+}
+
+.h7_cat {
+    font-style: normal;
+    color: #007bff;
+
+}
+
+span.badge.bg-primary.rounded-pill {
+    padding: .25em .7em;
+}

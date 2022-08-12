@@ -1,0 +1,21 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$PS3ffUGN7acOOfOdVrFhEj$A9GyaEmHiRrqj7lxKuI5KFuMX6eUA8fJWdLad3YLpzU=",
+      "last_login": "2021-09-24T10:59:53.753Z",
+      "is_superuser": true,
+      "username": "sten451",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-09-23T17:53:36.704Z",
+      "image": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
